@@ -14,188 +14,16 @@ servers:
 tags:
 - name: fornecedores
   description: Busca dos produtos em fornecedores.
-paths:
-  /fornecedores:
-    get:
-      tags:
-      - fornecedores
-      summary: Retorna todos fornecedores
-    post:
-      tags:
-      - fornecedores
-      summary: Cria um novo fornecedor
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Fornecedor'
-        required: true
-      x-codegen-request-body-name: fornecedor
-  /fornecedores/{id}:
-    get:
-      tags:
-      - fornecedores
-      summary: Retorna um fornecedor específico
-    put:
-      tags:
-      - fornecedores
-      summary: Atualiza propriedade em um fornecedor
-  /fornecedores/{id}/produtos:
-    post:
-      tags:
-      - fornecedores
-      summary: Insere um produto
-  /user/createWithArray:
-    post:
-      tags:
-      - user
-      summary: Creates list of users with given input array
-      operationId: createUsersWithArrayInput
-      requestBody:
-        description: List of user object
-        content:
-          '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
-        required: true
-      responses:
-        default:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: body
-  /user/createWithList:
-    post:
-      tags:
-      - user
-      summary: Creates list of users with given input array
-      operationId: createUsersWithListInput
-      requestBody:
-        description: List of user object
-        content:
-          '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
-        required: true
-      responses:
-        default:
-          description: successful operation
-          content: {}
-      x-codegen-request-body-name: body
-  /user/login:
-    get:
-      tags:
-      - user
-      summary: Logs user into the system
-      operationId: loginUser
-      parameters:
-      - name: username
-        in: query
-        description: The user name for login
-        required: true
-        schema:
-          type: string
-      - name: password
-        in: query
-        description: The password for login in clear text
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
-          content:
-            application/xml:
-              schema:
-                type: string
-            application/json:
-              schema:
-                type: string
-        400:
-          description: Invalid username/password supplied
-          content: {}
-  /user/logout:
-    get:
-      tags:
-      - user
-      summary: Logs out current logged in user session
-      operationId: logoutUser
-      responses:
-        default:
-          description: successful operation
-          content: {}
-  /user/{username}:
-    get:
-      tags:
-      - user
-      summary: Get user by user name
-      operationId: getUserByName
-      parameters:
-      - name: username
-        in: path
-        description: 'The name that needs to be fetched. Use user1 for testing. '
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        400:
-          description: Invalid username supplied
-          content: {}
-        404:
-          description: User not found
-          content: {}
-    put:
-      tags:
-      - user
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
-      parameters:
-      - name: username
-        in: path
-        description: name that need to be updated
-        required: true
-        schema:
-          type: string
-      requestBody:
-        description: Updated user object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      responses:
-        400:
-          description: Invalid user supplied
-          content: {}
-        404:
-          description: User not found
-          content: {}
-      x-codegen-request-body-name: body
 components:
+  parameters:
+    fornecedorId:
+      - in: path
+        name: fornecedorId
+        required: true
+        type: integer
+        format: int64 
+        minimal: 1
+      
   schemas:
     Fornecedor:
       type: object
@@ -203,9 +31,9 @@ components:
         id:
           type: integer
           format: int64
-        razaosocial:
+        razaoSocial:
           type: string
-        nomefantasia:
+        nomeFantasia:
           type: string
         cnpj:
           type: string
@@ -217,6 +45,10 @@ components:
           - inativo
         site:
           type: string
+      required:
+        - id
+        - razaoSocial
+        - cnpj
     Produto:
       type: object
       properties:
@@ -224,7 +56,9 @@ components:
           type: integer
           description: identificador interno do produto
           format: int64
-        fornecedor:
+        referencia:
+          type: string
+        fornecedorId:
           type: integer
           format: int64
         descricao:
@@ -236,18 +70,11 @@ components:
         preco:
           type: number
           format: double
-        validade:
-          type: string
-          format: date
-        categoria:
+        categorias:
           type: array
           items:
             type: string
         detalhe:
-          type: string
-        referencia:
-          type: string
-        cor:
           type: string
         tamanho:
           type: string
@@ -255,6 +82,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Imagem'
+      required: 
+        - id
+        - fornecedorId
+        - descricao
+        - preco
+        - categorias
     Imagem:
       type: object
       properties:
@@ -262,3 +95,60 @@ components:
           type: string
         caption:
           type: string
+      required:
+        - url
+    ArrayDeFornecedores:
+      type: array
+      items:
+        $ref: '#/components/schemas/Fornecedor'
+
+  
+
+paths:
+  /fornecedores:
+    get:
+      tags:
+      - fornecedores
+      summary: Retorna todos fornecedores
+    post:
+      tags:
+      - fornecedores
+      summary: Cria um novo fornecedor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              
+              #schema:
+              #  $ref: '#/components/schemas/ArrayDeFornecedores'
+                
+  /fornecedores/{fornecedorId}:
+    get:
+      tags:
+      - fornecedores
+      summary: Retorna um fornecedor específico
+      parameters:
+        - $ref: '#/components/parameters/fornecedorId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedor'
+    put:
+      tags:
+      - fornecedores
+      summary: Atualiza propriedade em um fornecedor
+      parameters: 
+        - $ref: '#/components/parameters/fornecedorId'
+  /fornecedores/{fornecedorId}/produtos:
+    post:
+      tags:
+      - fornecedores
+      summary: Insere um produto
+      parameters: 
+        fornecedorId
+  
+
