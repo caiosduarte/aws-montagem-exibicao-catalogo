@@ -1,265 +1,264 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "APIs de busca de produtos em fornecedores."
-  version: "1.0.0"
-  title: "Fornecedores API"
+  title: Fornecedores API
+  description: APIs de busca de produtos em fornecedores.
   contact:
-    email: "bcem@pucminas.br"
-    
-host: "localhost:8080"
-basePath: "/catalogo/v1"
+    email: bcem@pucminas.br
+  version: 1.0.0
+externalDocs:
+  description: Encontre mais a respeito da API Fornecedores
+  url: https://github.com/caiosduarte/aws-montagem-exibicao-catalogo
+servers:
+- url: https://localhost:8080/catalogo/v1
+- url: http://localhost:8080/catalogo/v1
 tags:
-- name: "fornecedores"
-  description: "Busca dos produtos em fornecedores."
-schemes:
-- "https"
-- "http"
+- name: fornecedores
+  description: Busca dos produtos em fornecedores.
 paths:
   /fornecedores:
     get:
       tags:
-      - "fornecedores"
-      summary: "Retorna todos fornecedores"
+      - fornecedores
+      summary: Retorna todos fornecedores
     post:
       tags:
-      - "fornecedores"
-      summary: "Cria um novo fornecedor"
-      consumes:
-        - application/json
-      parameters:
-      - name: "fornecedor"
-        in: "body"
+      - fornecedores
+      summary: Cria um novo fornecedor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fornecedor'
         required: true
-        schema:
-          $ref: '#/definitions/Fornecedor'
+      x-codegen-request-body-name: fornecedor
   /fornecedores/{id}:
     get:
       tags:
-      - "fornecedores"
-      summary: "Retorna um fornecedor específico"
+      - fornecedores
+      summary: Retorna um fornecedor específico
     put:
       tags:
-      - "fornecedores"
-      summary: "Atualiza propriedade em um fornecedor"
-    
+      - fornecedores
+      summary: Atualiza propriedade em um fornecedor
   /fornecedores/{id}/produtos:
     post:
       tags:
-      - "fornecedores"
-      summary: "Insere um produto"
-
+      - fornecedores
+      summary: Insere um produto
   /user/createWithArray:
     post:
       tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
+      - user
+      summary: Creates list of users with given input array
+      operationId: createUsersWithArrayInput
+      requestBody:
+        description: List of user object
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
         required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
       responses:
         default:
-          description: "successful operation"
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
   /user/createWithList:
     post:
       tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
+      - user
+      summary: Creates list of users with given input array
+      operationId: createUsersWithListInput
+      requestBody:
+        description: List of user object
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
         required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
       responses:
         default:
-          description: "successful operation"
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
   /user/login:
     get:
       tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "loginUser"
-      produces:
-      - "application/xml"
-      - "application/json"
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
       parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
+      - name: username
+        in: query
+        description: The user name for login
         required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
         required: true
-        type: "string"
+        schema:
+          type: string
       responses:
         200:
-          description: "successful operation"
-          schema:
-            type: "string"
+          description: successful operation
           headers:
             X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
             X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
         400:
-          description: "Invalid username/password supplied"
+          description: Invalid username/password supplied
+          content: {}
   /user/logout:
     get:
       tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logoutUser"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters: []
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
       responses:
         default:
-          description: "successful operation"
+          description: successful operation
+          content: {}
   /user/{username}:
     get:
       tags:
-      - "user"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/xml"
-      - "application/json"
+      - user
+      summary: Get user by user name
+      operationId: getUserByName
       parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-    put:
-      tags:
-      - "user"
-      summary: "Updated user"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUser"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
+      - name: username
+        in: path
+        description: 'The name that needs to be fetched. Use user1 for testing. '
         required: true
         schema:
-          $ref: "#/definitions/User"
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid username supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+    put:
+      tags:
+      - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+      - name: username
+        in: path
+        description: name that need to be updated
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated user object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
       responses:
         400:
-          description: "Invalid user supplied"
+          description: Invalid user supplied
+          content: {}
         404:
-          description: "User not found"
-definitions:
-  Fornecedor:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      razaosocial:
-        type: "string"
-      nomefantasia:
-        type: "string"
-      cnpj:
-        type: "string"
-      status:
-        type: "string"
-        description: "Status do Fornecedor"
-        enum:
-        - "ativo"
-        - "inativo"
-      site:
-        type: "string"
-  Produto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        description: "identificador interno do produto"
-      fornecedor:
-        type: "integer"
-        format: "int64"
-      descricao:
-        type: "string"
-      estoque:
-        type: "number"
-        format: "double"
-        description: "quantidade do produto em estoque"
-      preco:
-        type: "number"
-        format: "double"
-      validade:
-        type: "string"
-      categoria:
-        type: "array"
-        items: 
-          type: "string"
-      detalhe:
-        type: "string"
-      referencia:
-        type: "string"
-      cor:
-        type: "string"
-      tamanho:
-        type: "string"
-      imagens:
-          type: "array"
+          description: User not found
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Fornecedor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        razaosocial:
+          type: string
+        nomefantasia:
+          type: string
+        cnpj:
+          type: string
+        status:
+          type: string
+          description: Status do Fornecedor
+          enum:
+          - ativo
+          - inativo
+        site:
+          type: string
+    Produto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: identificador interno do produto
+          format: int64
+        fornecedor:
+          type: integer
+          format: int64
+        descricao:
+          type: string
+        estoque:
+          type: number
+          description: quantidade do produto em estoque
+          format: double
+        preco:
+          type: number
+          format: double
+        validade:
+          type: string
+          format: date
+        categoria:
+          type: array
           items:
-            $ref: "#/definitions/Imagem"
-  Imagem:
-    type: "object"
-    properties:
-      url:
-        type: "string"
-      caption:
-        type: "string"
-          
-externalDocs:
-  description: "Encontre mais a respeito da API Fornecedores"
-  url: "https://github.com/caiosduarte/aws-montagem-exibicao-catalogo"
+            type: string
+        detalhe:
+          type: string
+        referencia:
+          type: string
+        cor:
+          type: string
+        tamanho:
+          type: string
+        imagens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Imagem'
+    Imagem:
+      type: object
+      properties:
+        url:
+          type: string
+        caption:
+          type: string
