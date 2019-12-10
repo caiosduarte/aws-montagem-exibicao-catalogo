@@ -1,0 +1,265 @@
+swagger: "2.0"
+info:
+  description: "APIs de busca de produtos em fornecedores."
+  version: "1.0.0"
+  title: "Fornecedores API"
+  contact:
+    email: "bcem@pucminas.br"
+    
+host: "localhost:8080"
+basePath: "/catalogo/v1"
+tags:
+- name: "fornecedores"
+  description: "Busca dos produtos em fornecedores."
+schemes:
+- "https"
+- "http"
+paths:
+  /fornecedores:
+    get:
+      tags:
+      - "fornecedores"
+      summary: "Retorna todos fornecedores"
+    post:
+      tags:
+      - "fornecedores"
+      summary: "Cria um novo fornecedor"
+      consumes:
+        - application/json
+      parameters:
+      - name: "fornecedor"
+        in: "body"
+        required: true
+        schema:
+          $ref: '#/definitions/Fornecedor'
+  /fornecedores/{id}:
+    get:
+      tags:
+      - "fornecedores"
+      summary: "Retorna um fornecedor específico"
+    put:
+      tags:
+      - "fornecedores"
+      summary: "Atualiza propriedade em um fornecedor"
+    
+  /fornecedores/{id}/produtos:
+    post:
+      tags:
+      - "fornecedores"
+      summary: "Insere um produto"
+
+  /user/createWithArray:
+    post:
+      tags:
+      - "user"
+      summary: "Creates list of users with given input array"
+      description: ""
+      operationId: "createUsersWithArrayInput"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user/createWithList:
+    post:
+      tags:
+      - "user"
+      summary: "Creates list of users with given input array"
+      description: ""
+      operationId: "createUsersWithListInput"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user/login:
+    get:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        400:
+          description: "Invalid username/password supplied"
+  /user/logout:
+    get:
+      tags:
+      - "user"
+      summary: "Logs out current logged in user session"
+      description: ""
+      operationId: "logoutUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+  /user/{username}:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by user name"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+      - "user"
+      summary: "Updated user"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "name that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+definitions:
+  Fornecedor:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      razaosocial:
+        type: "string"
+      nomefantasia:
+        type: "string"
+      cnpj:
+        type: "string"
+      status:
+        type: "string"
+        description: "Status do Fornecedor"
+        enum:
+        - "ativo"
+        - "inativo"
+      site:
+        type: "string"
+  Produto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "identificador interno do produto"
+      fornecedor:
+        type: "integer"
+        format: "int64"
+      descricao:
+        type: "string"
+      estoque:
+        type: "number"
+        format: "double"
+        description: "quantidade do produto em estoque"
+      preco:
+        type: "number"
+        format: "double"
+      validade:
+        type: "string"
+      categoria:
+        type: "array"
+        items: 
+          type: "string"
+      detalhe:
+        type: "string"
+      referencia:
+        type: "string"
+      cor:
+        type: "string"
+      tamanho:
+        type: "string"
+      imagens:
+          type: "array"
+          items:
+            $ref: "#/definitions/Imagem"
+  Imagem:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      caption:
+        type: "string"
+          
+externalDocs:
+  description: "Encontre mais a respeito da API Fornecedores"
+  url: "https://github.com/caiosduarte/aws-montagem-exibicao-catalogo"
