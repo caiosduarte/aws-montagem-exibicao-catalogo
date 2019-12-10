@@ -15,15 +15,6 @@ tags:
 - name: fornecedores
   description: Busca dos produtos em fornecedores.
 components:
-  parameters:
-    fornecedorId:
-      - in: path
-        name: fornecedorId
-        required: true
-        type: integer
-        format: int64 
-        minimal: 1
-      
   schemas:
     Fornecedor:
       type: object
@@ -101,27 +92,44 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Fornecedor'
-
-  
-
+      
+  parameters:
+    fornecedorId:
+      - in: path
+        name: fornecedorId
+        required: true
+        type: integer
+        format: int64 
+        minimal: 1        
 paths:
   /fornecedores:
     get:
       tags:
       - fornecedores
       summary: Retorna todos fornecedores
-    post:
-      tags:
-      - fornecedores
-      summary: Cria um novo fornecedor
       responses:
         '200':
           description: OK
           content:
             application/json:
-              
-              #schema:
-              #  $ref: '#/components/schemas/ArrayDeFornecedores'
+              schema:
+               $ref: '#/components/schemas/ArrayDeFornecedores'
+    post:
+      tags:
+      - fornecedores
+      summary: Cria um novo fornecedor
+      responses:
+      # retornar a localização
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayDeFornecedores'
+        '403':
+            description: 'erro nos parâmetros'
+        '5xx':
+            description: 'erro no servidor'
                 
   /fornecedores/{fornecedorId}:
     get:
@@ -143,6 +151,7 @@ paths:
       summary: Atualiza propriedade em um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedorId'
+        
   /fornecedores/{fornecedorId}/produtos:
     post:
       tags:
@@ -150,5 +159,19 @@ paths:
       summary: Insere um produto
       parameters: 
         fornecedorId
-  
-
+      responses:
+        '201': # retornar a localização
+          description: produto criado
+        '403':
+          description: produto já criado
+    put:
+      tags:
+      - fornecedores
+      summary: atualiza um produto
+      parameters: 
+        fornecedorId
+      responses:
+        '200': # retornar a localização
+          description: produto atualizado
+        '403':
+          description: produto já criado
