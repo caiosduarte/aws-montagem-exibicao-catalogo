@@ -21,7 +21,7 @@ components:
       properties:
         id:
           type: integer
-          format: int64
+          format: int32
         razaoSocial:
           type: string
         nomeFantasia:
@@ -39,25 +39,32 @@ components:
       required:
         - id
         - razaoSocial
+        - nomeFantasia
         - cnpj
+        - site
     Produto:
       type: object
       properties:
         id:
           type: integer
-          description: identificador interno do produto
           format: int64
+          description: identificador interno do produto
         referencia:
           type: string
+          description: referência do fabricante do produto
         fornecedorId:
           type: integer
-          format: int64
+          format: int32
+          description: identificador do fornecedor do produto
+        codigoNoFornecedor:
+          type: string
+          description: identificador do produto no fornecedor
         descricao:
           type: string
         estoque:
           type: number
-          description: quantidade do produto em estoque
           format: double
+          description: quantidade do produto em estoque
         preco:
           type: number
           format: double
@@ -65,20 +72,27 @@ components:
           type: array
           items:
             type: string
+          description: categorias do produto
+          example: ['informática', 'hardware', 'processadores']
         detalhe:
           type: string
+          description: características detalhadas do produto
         tamanho:
           type: string
         imagens:
           type: array
           items:
             $ref: '#/components/schemas/Imagem'
+        url:
+          type: string
       required: 
         - id
         - fornecedorId
+        - codigoNoFornecedor
         - descricao
         - preco
         - categorias
+        - url
     Imagem:
       type: object
       properties:
@@ -92,15 +106,16 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Fornecedor'
-      
   parameters:
-    fornecedorId:
-      - in: path
-        name: fornecedorId
-        required: true
+    fornecedorId: 
+      in: path
+      name: offset
+      required: true
+      schema:
         type: integer
-        format: int64 
-        minimal: 1        
+        minimum: 1
+      description: O identificador do fornecedor.
+      example: 20
 paths:
   /fornecedores:
     get:
@@ -119,8 +134,7 @@ paths:
       - fornecedores
       summary: Cria um novo fornecedor
       responses:
-      # retornar a localização
-        '201':
+        '201':  # retornar a localização
           description: OK
           content:
             application/json:
@@ -128,7 +142,7 @@ paths:
                 $ref: '#/components/schemas/ArrayDeFornecedores'
         '403':
             description: 'erro nos parâmetros'
-        '5xx':
+        '5XX':
             description: 'erro no servidor'
                 
   /fornecedores/{fornecedorId}:
@@ -151,6 +165,11 @@ paths:
       summary: Atualiza propriedade em um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedorId'
+      responses:
+        '200': # retornar a localização
+          description: fornecedor atualizado
+        '404':
+          description: fornecedor não encontrado
         
   /fornecedores/{fornecedorId}/produtos:
     post:
@@ -158,7 +177,7 @@ paths:
       - fornecedores
       summary: Insere um produto
       parameters: 
-        fornecedorId
+        - $ref: '#/components/parameters/fornecedorId'
       responses:
         '201': # retornar a localização
           description: produto criado
@@ -169,7 +188,7 @@ paths:
       - fornecedores
       summary: atualiza um produto
       parameters: 
-        fornecedorId
+        - $ref: '#/components/parameters/fornecedorId'
       responses:
         '200': # retornar a localização
           description: produto atualizado
