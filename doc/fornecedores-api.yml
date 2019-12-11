@@ -28,6 +28,7 @@ components:
           type: string
         cnpj:
           type: string
+          pattern: '^\d{14}$'
         status:
           type: string
           description: Status do Fornecedor
@@ -48,17 +49,17 @@ components:
         id:
           type: integer
           format: int64
-          description: identificador interno do produto
+          description: Identificador interno do Produto
         referencia:
           type: string
-          description: referência do fabricante do produto
+          description: Referência do fabricante do Produto
         fornecedorId:
           type: integer
           format: int32
-          description: identificador do fornecedor do produto
+          description: Identificador do fornecedor do Produto
         codigoNoFornecedor:
           type: string
-          description: 'identificador do produto no fornecedor'
+          description: 'Identificador do Produto no Fornecedor'
         descricao:
           type: string
           minLength: 2
@@ -68,7 +69,7 @@ components:
         estoque:
           type: number
           format: double
-          description: quantidade do produto em estoque
+          description: Quantidade do Produto em estoque
         preco:
           type: number
           format: double
@@ -76,12 +77,11 @@ components:
           type: array
           items:
             type: string
-            description: categorias do produto
-          example: [informática, hardware, processadores]
+            description: Categorias do Produto
         detalhes:
-          type: string
-          maxLength: 255
-          description: 'características detalhadas do produto: peso, tamanho, polegadas, acessórios, etc'
+          type: object
+          additionalProperties: {}
+          description: 'Características detalhadas do produto: peso, tamanho, polegadas, acessórios, etc. (free-form object)'
         tamanho:
           type: string
         imagens:
@@ -105,12 +105,12 @@ components:
         referencia: M280-2V 
         fornecedorId: 1
         codigoNoFornecedor: 39ab
-        descricao: Mouse Logitech M280 sem Fio - Preto
+        descricao: 'Mouse Logitech M280 sem Fio - Preto'
         marca: Logitech
         estoque: 10
         preco: 200.99
-        categorias: [informática, periféricos, mouse, mouse óptico, mouse sem fio]
-        detalhes: 'Mouse óptico sem fio preto garantia de 30 meses'
+        categorias: ['informática', 'periféricos', mouse, 'mouse óptico', mouse sem fio]
+        detalhes: {texto: 'Mouse óptico sem fio preto garantia de 30 meses', cor: 'Preto', codigoDeBarras: 0097855107435}
         url: https://www.submarino.com.br/produto/121960403/
     Imagem:
       type: object
@@ -170,7 +170,7 @@ paths:
     get:
       tags:
         - fornecedores
-      summary: Retorna um fornecedor específico
+      summary: Retorna um fornecedor
       parameters:
         - $ref: '#/components/parameters/fornecedor'
       responses:
@@ -180,15 +180,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'
+        '404':
+          description: fornecedor não encontrado
+
     put:
       tags:
         - fornecedores
-      summary: Atualiza propriedade em um fornecedor
+      summary: Atualiza um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       responses:
         '200': # retornar a localização
           description: fornecedor atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedor'
+
         '404':
           description: fornecedor não encontrado
         
@@ -209,14 +217,14 @@ paths:
     post:
       tags:
         - fornecedores/produtos
-      summary: Insere um produto
+      summary: Insere um produto do fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       responses:
         '201': # retornar a localização
-          description: produto criado
+          description: produto criado para o fornecedor
         '403':
-          description: produto já criado
+          description: produto já criado para este fornecedor
     put:
       tags:
         - fornecedores/produtos
@@ -224,7 +232,7 @@ paths:
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       responses:
-        '200': # retornar a localização
-          description: produto atualizado
+        '200':
+          description: produto atualizado para o fornecedor
         '403':
-          description: produto já criado
+          description: produto já criado para este fornecedor
