@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Fornecedores API
-  description: APIs de busca de produtos em fornecedores.
+  description: XXXXXXXXXXX
   contact:
     email: bcem@pucminas.br
   version: 1.0.0
@@ -120,7 +120,7 @@ paths:
   /fornecedores:
     get:
       tags:
-      - fornecedores
+        - fornecedores
       summary: Retorna todos fornecedores
       responses:
         '200':
@@ -131,7 +131,7 @@ paths:
                $ref: '#/components/schemas/ArrayDeFornecedores'
     post:
       tags:
-      - fornecedores
+        - fornecedores
       summary: Cria um novo fornecedor
       responses:
         '201':  # retornar a localização
@@ -148,7 +148,7 @@ paths:
   /fornecedores/{fornecedorId}:
     get:
       tags:
-      - fornecedores
+        - fornecedores
       summary: Retorna um fornecedor específico
       parameters:
         - $ref: '#/components/parameters/fornecedorId'
@@ -161,7 +161,7 @@ paths:
                 $ref: '#/components/schemas/Fornecedor'
     put:
       tags:
-      - fornecedores
+        - fornecedores
       summary: Atualiza propriedade em um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedorId'
@@ -172,9 +172,13 @@ paths:
           description: fornecedor não encontrado
         
   /fornecedores/{fornecedorId}/produtos:
+    get:
+      tags:
+        - fornecedores/produtos
+      sumary: Retorna os produtos de um fornecedor
     post:
       tags:
-      - fornecedores
+        - fornecedores/produtos
       summary: Insere um produto
       parameters: 
         - $ref: '#/components/parameters/fornecedorId'
@@ -185,7 +189,7 @@ paths:
           description: produto já criado
     put:
       tags:
-      - fornecedores
+        - fornecedores/produtos
       summary: atualiza um produto
       parameters: 
         - $ref: '#/components/parameters/fornecedorId'
