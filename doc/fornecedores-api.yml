@@ -154,6 +154,12 @@ paths:
       tags:
         - fornecedores
       summary: Cria um novo fornecedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fornecedor'
       responses:
         '201':  # retornar a localização
           description: OK
@@ -189,6 +195,12 @@ paths:
       summary: Atualiza um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fornecedor'
       responses:
         '200': # retornar a localização
           description: fornecedor atualizado
@@ -220,6 +232,13 @@ paths:
       summary: Insere um produto do fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+        
       responses:
         '201': # retornar a localização
           description: produto criado para o fornecedor
@@ -231,6 +250,12 @@ paths:
       summary: atualiza um produto
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'        
       responses:
         '200':
           description: produto atualizado para o fornecedor
