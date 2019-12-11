@@ -61,6 +61,10 @@ components:
           description: identificador do produto no fornecedor
         descricao:
           type: string
+          minLength: 2
+        marca:
+          type: string
+          minLength: 2
         estoque:
           type: number
           format: double
@@ -72,11 +76,12 @@ components:
           type: array
           items:
             type: string
-          description: categorias do produto
-          example: ['informática', 'hardware', 'processadores']
-        detalhe:
+            description: categorias do produto
+          example: [informática, hardware, processadores]
+        detalhes:
           type: string
-          description: características detalhadas do produto
+          maxLength: 255
+          description: 'características detalhadas do produto: peso, tamanho, polegadas, acessórios, etc'
         tamanho:
           type: string
         imagens:
@@ -85,14 +90,28 @@ components:
             $ref: '#/components/schemas/Imagem'
         url:
           type: string
+          format: uri
       required: 
         - id
         - fornecedorId
         - codigoNoFornecedor
         - descricao
+        - marca
         - preco
         - categorias
         - url
+      example:
+        id: 1
+        referencia: M280-2V 
+        fornecedorId: 1
+        codigoNoFornecedor: 39ab
+        descricao: Mouse Logitech M280 sem Fio - Preto
+        marca: Logitech
+        estoque: 10
+        preco: 200.99
+        categorias: [informática, periféricos, mouse, mouse óptico, mouse sem fio]
+        detalhes: 'Mouse óptico preto garantia de 30 meses'
+        url: https://www.submarino.com.br/produto/121960403/
     Imagem:
       type: object
       properties:
@@ -107,12 +126,13 @@ components:
       items:
         $ref: '#/components/schemas/Fornecedor'
   parameters:
-    fornecedorId: 
+    fornecedor: 
       in: path
-      name: offset
+      name: fornecedorId
       required: true
       schema:
         type: integer
+        format: int32
         minimum: 1
       description: O identificador do fornecedor.
       example: 20
@@ -151,7 +171,7 @@ paths:
         - fornecedores
       summary: Retorna um fornecedor específico
       parameters:
-        - $ref: '#/components/parameters/fornecedorId'
+        - $ref: '#/components/parameters/fornecedor'
       responses:
         '200':
           description: OK
@@ -164,7 +184,7 @@ paths:
         - fornecedores
       summary: Atualiza propriedade em um fornecedor
       parameters: 
-        - $ref: '#/components/parameters/fornecedorId'
+        - $ref: '#/components/parameters/fornecedor'
       responses:
         '200': # retornar a localização
           description: fornecedor atualizado
@@ -175,13 +195,22 @@ paths:
     get:
       tags:
         - fornecedores/produtos
-      sumary: Retorna os produtos de um fornecedor
+      summary: Retorna os produtos de um fornecedor
+      parameters: 
+        - $ref: '#/components/parameters/fornecedor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
     post:
       tags:
         - fornecedores/produtos
       summary: Insere um produto
       parameters: 
-        - $ref: '#/components/parameters/fornecedorId'
+        - $ref: '#/components/parameters/fornecedor'
       responses:
         '201': # retornar a localização
           description: produto criado
@@ -192,7 +221,7 @@ paths:
         - fornecedores/produtos
       summary: atualiza um produto
       parameters: 
-        - $ref: '#/components/parameters/fornecedorId'
+        - $ref: '#/components/parameters/fornecedor'
       responses:
         '200': # retornar a localização
           description: produto atualizado
