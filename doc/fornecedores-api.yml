@@ -13,7 +13,9 @@ servers:
 - url: http://localhost:8080/catalogo/v1
 tags:
 - name: fornecedores
-  description: Busca dos produtos em fornecedores.
+  description: Manipula os fornecedores Drop Shipping
+- name: fornecedores/produtos
+  description: Manipula produtos do Fornecedor  
 components:
   schemas:
     Fornecedor:
@@ -195,7 +197,7 @@ paths:
     post:
       tags:
         - fornecedores
-      summary: Cria um novo fornecedor
+      summary: Cria um Fornecedor
       requestBody:
         required: true
         content:
@@ -223,7 +225,7 @@ paths:
     get:
       tags:
         - fornecedores
-      summary: Retorna um fornecedor
+      summary: Retorna um Fornecedor
       parameters:
         - $ref: '#/components/parameters/fornecedor'
       responses:
@@ -243,7 +245,7 @@ paths:
     put:
       tags:
         - fornecedores
-      summary: Atualiza um fornecedor
+      summary: Atualiza um Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       requestBody:
@@ -266,7 +268,7 @@ paths:
     get:
       tags:
         - fornecedores/produtos
-      summary: Retorna os produtos de um fornecedor
+      summary: Retorna todos produtos de um Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       responses:
@@ -288,7 +290,7 @@ paths:
     post:
       tags:
         - fornecedores/produtos
-      summary: Insere um produto do fornecedor
+      summary: Insere um Produto do Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       requestBody:
@@ -321,7 +323,7 @@ paths:
     put:
       tags:
         - fornecedores/produtos
-      summary: atualiza um produto
+      summary: Atualiza um Produto do Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
       requestBody:
@@ -344,7 +346,7 @@ paths:
     get:
       tags:
         - fornecedores/produtos
-      summary: Retorna os produtos de um fornecedor
+      summary: Retorna um Produto do Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
         - in: path
