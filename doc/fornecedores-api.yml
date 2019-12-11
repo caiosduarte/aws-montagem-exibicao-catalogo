@@ -134,7 +134,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Fornecedor'
-    Erro:
+    ErroResposta:
       type: object
       properties:
         code:
@@ -162,19 +162,19 @@ components:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Erro'
+              $ref: '#/components/schemas/ErroResposta'
     NaoEncontrado:
         description: ID especificado não encontrado.   
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Erro'
+              $ref: '#/components/schemas/ErroResposta'
     Inesperado:
       description: Erro inesperado.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Erro'              
+            $ref: '#/components/schemas/ErroResposta'              
         
 paths:
   /fornecedores:
@@ -215,7 +215,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erro'         
+                $ref: '#/components/schemas/ErroResposta'         
         default:
           $ref: '#/components/responses/Inesperado'
                 
