@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-12-11T20:18:24.500Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="W0dsdTgCLGffhpJc2fyW" version="12.3.9" type="github" pages="3">
+<mxfile host="www.draw.io" modified="2019-12-11T20:19:06.758Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="X4UtHjbCc24gRbfIr_C0" version="12.3.9" type="github" pages="3">
   <diagram id="Ebb7hh0iPInyeYYLT9A0" name="Sistema Drop Shipping">
     <mxGraphModel dx="1632" dy="1537" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -284,7 +284,7 @@
         <mxCell id="L_QW2cBHwEn6nDoB4Nol-18" value="detalhes: {}&#xa;" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" parent="L_QW2cBHwEn6nDoB4Nol-9" vertex="1">
           <mxGeometry y="234" width="256" height="26" as="geometry"/>
         </mxCell>
-        <mxCell id="A1Xe5e2t-GwGB7ck4zWr-11" value="imagens: array {url: string, legenda:string}&#xa;" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="L_QW2cBHwEn6nDoB4Nol-9">
+        <mxCell id="A1Xe5e2t-GwGB7ck4zWr-11" value="tamanho: string" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="L_QW2cBHwEn6nDoB4Nol-9">
           <mxGeometry y="260" width="256" height="26" as="geometry"/>
         </mxCell>
         <mxCell id="A1Xe5e2t-GwGB7ck4zWr-12" value="imagens: array {url: string, legenda:string}&#xa;" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="L_QW2cBHwEn6nDoB4Nol-9">
