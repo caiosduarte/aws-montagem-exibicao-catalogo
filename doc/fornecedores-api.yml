@@ -43,6 +43,14 @@ components:
         - nomeFantasia
         - cnpj
         - site
+      example:
+        id: 1
+        razaoSocial: B2W - Companhia Digital
+        nomeFantasia: Sumarino
+        cnpj: '00776574000660'
+        status: ativo
+        site: https://www.submarino.com.br/
+      
     Produto:
       type: object
       properties:
@@ -110,7 +118,7 @@ components:
         estoque: 10
         preco: 200.99
         categorias: ['informática', 'periféricos', mouse, 'mouse óptico', mouse sem fio]
-        detalhes: {texto: 'Mouse óptico sem fio preto garantia de 30 meses', cor: 'Preto', codigoDeBarras: 0097855107435}
+        detalhes: {texto: 'Mouse óptico sem fio preto garantia de 30 meses', cor: 'Preto', codigoDeBarras: 0097855107435, tamanho: '9x15x6cm'}
         url: https://www.submarino.com.br/produto/121960403/
     Imagem:
       type: object
@@ -126,6 +134,17 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Fornecedor'
+    Erro:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message        
+        
   parameters:
     fornecedor: 
       in: path
@@ -136,7 +155,27 @@ components:
         format: int32
         minimum: 1
       description: O identificador do fornecedor.
-      example: 20
+      example: 1
+  responses:
+    Invalido:
+        description: ID especificado inválido (não é um número).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Erro'
+    NaoEncontrado:
+        description: ID especificado não encontrado.   
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Erro'
+    Inesperado:
+      description: Erro inesperado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Erro'              
+        
 paths:
   /fornecedores:
     get:
@@ -150,6 +189,9 @@ paths:
             application/json:
               schema:
                $ref: '#/components/schemas/ArrayDeFornecedores'
+        default:
+          $ref: '#/components/responses/Inesperado'
+        
     post:
       tags:
         - fornecedores
@@ -161,16 +203,21 @@ paths:
             schema:
               $ref: '#/components/schemas/Fornecedor'
       responses:
-        '201':  # retornar a localização
-          description: OK
+        '201': 
+          description: Fornecedor criado.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Retorna o URI do fornecedor criado.        
+        '403':
+          description: Fornecedor já criado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArrayDeFornecedores'
-        '403':
-            description: 'erro nos parâmetros'
-        '5XX':
-            description: 'erro no servidor'
+                $ref: '#/components/schemas/Erro'         
+        default:
+          $ref: '#/components/responses/Inesperado'
                 
   /fornecedores/{fornecedorId}:
     get:
@@ -186,8 +233,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Fornecedor'
+        '400':
+          $ref: '#/components/responses/Invalido'
         '404':
-          description: fornecedor não encontrado
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
 
     put:
       tags:
@@ -202,15 +253,14 @@ paths:
             schema:
               $ref: '#/components/schemas/Fornecedor'
       responses:
-        '200': # retornar a localização
-          description: fornecedor atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Fornecedor'
-
+        '200': 
+          description: Fornecedor atualizado.
+        '400':
+          $ref: '#/components/responses/Invalido'
         '404':
-          description: fornecedor não encontrado
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
         
   /fornecedores/{fornecedorId}/produtos:
     get:
@@ -225,7 +275,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Produto'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
+                
     post:
       tags:
         - fornecedores/produtos
@@ -240,10 +299,25 @@ paths:
               $ref: '#/components/schemas/Produto'
         
       responses:
-        '201': # retornar a localização
-          description: produto criado para o fornecedor
+        '201': 
+          description: Produto do Fornecedor criado.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Retorna o URI do produto.          
         '403':
-          description: produto já criado para este fornecedor
+          description: Produto do Fornecedor já criado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
     put:
       tags:
         - fornecedores/produtos
@@ -258,6 +332,32 @@ paths:
               $ref: '#/components/schemas/Produto'        
       responses:
         '200':
-          description: produto atualizado para o fornecedor
-        '403':
-          description: produto já criado para este fornecedor
+          description: Produto do Fornecedor atualizado.
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
+        
+  /fornecedores/{fornecedorId}/produtos/{produtoId}:
+    get:
+      tags:
+        - fornecedores/produtos
+      summary: Retorna os produtos de um fornecedor
+      parameters: 
+        - $ref: '#/components/parameters/fornecedor'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
+  
