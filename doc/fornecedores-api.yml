@@ -347,6 +347,16 @@ paths:
       summary: Retorna os produtos de um fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
+        - in: path
+          name: produtoId
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador interno do produto.
+          example: 1      
+
       responses:
         '200':
           description: OK
