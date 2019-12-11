@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-12-11T00:50:08.019Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="NLvDPBKMja3_Z0sG1dap" version="12.3.9" type="github" pages="3">
+<mxfile host="www.draw.io" modified="2019-12-11T00:57:02.178Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" etag="xbK_dfW3cFh0bCsrSLW7" version="12.3.9" type="github" pages="3">
   <diagram id="FtYeqZTb3L_EZOEt96D3" name="Sistema Drop Shipping">
     <mxGraphModel dx="868" dy="1602" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -222,8 +222,8 @@
         <mxCell id="Bdm6o4Fe27jtfcwaigfE-4" value="BFF" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontColor=none;" parent="GI1mcccrDrv7K8XUTZxz-1" vertex="1">
           <mxGeometry x="358" y="440" width="40" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="rfsNG_s2QZ_kjyKmH4NA-0" value="&lt;h1&gt;API Gateway&lt;/h1&gt;&lt;p&gt;- Cache cliente com o cache-control&lt;/p&gt;&lt;p&gt;&lt;span&gt;- Segurança implementada apenas no gateway com apiKey&lt;/span&gt;&lt;/p&gt;&lt;p&gt;- Roteamento invocando os métodos da Fachada&lt;/p&gt;&lt;p&gt;- BFF&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="GI1mcccrDrv7K8XUTZxz-1">
-          <mxGeometry x="480" y="45" width="390" height="150" as="geometry"/>
+        <mxCell id="rfsNG_s2QZ_kjyKmH4NA-0" value="&lt;h1&gt;API Gateway&lt;/h1&gt;&lt;p&gt;- Acesso apenas em HTTPS&lt;/p&gt;&lt;p&gt;- Cache cliente com o cache-control&lt;/p&gt;&lt;p&gt;&lt;span&gt;- Segurança implementada apenas no gateway com apiKey&lt;/span&gt;&lt;/p&gt;&lt;p&gt;- Roteamento invocando os métodos da Fachada&lt;/p&gt;&lt;p&gt;- BFF&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="GI1mcccrDrv7K8XUTZxz-1">
+          <mxGeometry x="480" y="45" width="390" height="175" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
