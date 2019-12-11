@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Fornecedores API
-  description: XXXXXXXXXXX
+  description: API para manipular os fornecedores e receber os produtos dos crawllers
   contact:
     email: bcem@pucminas.br
   version: 1.0.0
@@ -58,7 +58,7 @@ components:
           description: identificador do fornecedor do produto
         codigoNoFornecedor:
           type: string
-          description: identificador do produto no fornecedor
+          description: 'identificador do produto no fornecedor'
         descricao:
           type: string
           minLength: 2
@@ -110,14 +110,15 @@ components:
         estoque: 10
         preco: 200.99
         categorias: [informática, periféricos, mouse, mouse óptico, mouse sem fio]
-        detalhes: 'Mouse óptico preto garantia de 30 meses'
+        detalhes: 'Mouse óptico sem fio preto garantia de 30 meses'
         url: https://www.submarino.com.br/produto/121960403/
     Imagem:
       type: object
       properties:
         url:
           type: string
-        caption:
+          format: uri
+        legenda:
           type: string
       required:
         - url
