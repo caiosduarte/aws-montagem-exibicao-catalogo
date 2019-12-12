@@ -211,7 +211,7 @@ O cadastro de produtos dos fornecedores pode ser via programas automatizados, cr
 
 ![Arquitetura da API Fornecedores](api-fornecedores.png)
 
-O objetivo do crawler é, seja fazendo web scrapping da página do fornecedor ou consultando alguma API disponibilizada pelo fornecedor, estruturar os dados dos produtos conforme o contrato repassando-os para API Fornecedores através do método POST (ou PUT) no URI /fornecedores/1/produtos. Os dados estruturados ficam assim:
+O objetivo do crawler é, seja fazendo web scrapping da página do fornecedor ou consultando alguma API disponibilizada pelo fornecedor, estruturar os dados dos produtos conforme o contrato repassando-os para API Fornecedores através do método POST (ou PUT) no URI **/fornecedores/1/produtos**. Os dados estruturados ficam assim:
 
 ``` javascript
 {
