@@ -106,18 +106,107 @@ No swagger a modelagem de dados foi feita na seção schemas:
 ![Modelo de Dados](schema-produto.png)
 
 
-### URIs
+### URIs: parâmetros e responses
 As URIs dos recursos na seção paths:
 
-Swagger | HTML
+#### Fornecedor: /fornecedores/{id}
+##### Swagger 
+``` javascript
+paths:
+  /fornecedores/{id}:
+    get:
+      tags:
+        - fornecedores
+      summary: Retorna um Fornecedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador do fornecedor.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedor'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
+components:
+  responses:
+    Invalido:
+        description: ID especificado inválido (não é um número).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErroResposta'
+    NaoEncontrado:
+        description: ID especificado não encontrado.   
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErroResposta'
+    Inesperado:
+      description: Erro inesperado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErroResposta'              
+```     
 
+#### Produto: /fornecedores/{fornecedorId}/produtos/{produtoId}
+##### Swagger 
+``` javascript
+  /fornecedores/{fornecedorId}/produtos/{produtoId}:
+    get:
+      tags:
+        - fornecedores/produtos
+      summary: Retorna um Produto do Fornecedor
+      parameters: 
+        - $ref: '#/components/parameters/fornecedor'
+        - in: path
+          name: produtoId
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador interno do produto.
+          example: 1      
 
-### Parâmetros
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
+```     
+## Cadastramento de Produtos
 
+A primeira parte do Sistema Drop Shipping envolve a obtenção de produtos nas páginas dos fornecedores cadastrados. 
 
-### Responses
- (via API Fornecedores de uma interface de administração)
+A API Catálogo foi dividida em 02 APIs menores de forma a separar as responsabilidades: a **API Fornecedores** e a API Produtos
 
-### Resultado do POST
+A API Fornecedores tem a responsabilidade de cadastrar os fornecedores e seus produtos.
+
+O cadastro de fornecedores tem um caráter administrativo do sistema e é feito pelo URI /fornecedores.
+
+O cadastro de produtos de fornecedores 
 
 
