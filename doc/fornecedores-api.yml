@@ -294,7 +294,7 @@ paths:
         - in: query
           name: categorias
           style: pipeDelimited
-          explode: true
+          explode: false
           description: 'Filtra pelas categorias separadas por pipe: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse'
           schema:
             minItems: 1
@@ -304,6 +304,7 @@ paths:
               type: string
           example: ['informática', 'periféricos', 'mouse','mouse óptico', 'mouse sem fio']
                   #/fornecedores/1/produtos?categorias=informatica|perifericos|mouse  
+          #https://swagger.io/docs/specification/serialization/
         - in: query
           name: offset
           schema:
@@ -323,22 +324,17 @@ paths:
           schema:
             type: object
             properties:
-              descricao:
-                type: string
-                enum:
-                  - asc
-                  - dsc
-                default:
-                  - asc
               preco:
                 type: number
                 enum:
+                  -
                   - asc
                   - dsc
                 default:
                   - asc                
-          style: deepObject
+          style: form
           explode: true  
+          #https://swagger.io/docs/specification/serialization/
       responses:
         '200':
           description: OK
