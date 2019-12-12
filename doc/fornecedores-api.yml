@@ -63,10 +63,6 @@ components:
         referencia:
           type: string
           description: Referência do fabricante do Produto
-        fornecedorId:
-          type: integer
-          format: int32
-          description: Identificador do fornecedor do Produto
         codigoNoFornecedor:
           type: string
           description: 'Identificador do Produto no Fornecedor'
@@ -92,8 +88,6 @@ components:
           type: object
           additionalProperties: {}
           description: 'Características detalhadas do produto: peso, tamanho, polegadas, acessórios, etc. (free-form object)'
-        tamanho:
-          type: string
         imagens:
           type: array
           items:
@@ -219,13 +213,21 @@ paths:
         default:
           $ref: '#/components/responses/Inesperado'
                 
-  /fornecedores/{fornecedorId}:
+  /fornecedores/{id}:
     get:
       tags:
         - fornecedores
       summary: Retorna um Fornecedor
       parameters:
-        - $ref: '#/components/parameters/fornecedor'
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador do fornecedor.
+          example: 1
       responses:
         '200':
           description: OK
@@ -245,7 +247,15 @@ paths:
         - fornecedores
       summary: Atualiza um Fornecedor
       parameters: 
-        - $ref: '#/components/parameters/fornecedor'
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador do fornecedor.
+          example: 1
       requestBody:
         required: true
         content:
@@ -270,18 +280,30 @@ paths:
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
         - in: query
+          name: descricao
+          schema:
+            type: string
+          description: Filtro pela descrição do produto.
+          example: mouse          
+        - in: query
+          name: marca
+          schema:
+            type: string
+          description: Filtro pela descrição do produto.
+          example: logitech          
+        - in: query
           name: categorias
           style: pipeDelimited
           explode: true
-          description: 'Filtra pelas categorias: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse'
+          description: 'Filtra pelas categorias separadas por pipe: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse'
           schema:
             minItems: 1
             uniqueItems: true
             type: array
             items:
               type: string
-              example: ['informática', 'periféricos', 'mouse','mouse óptico', 'mouse sem fio']
-          example: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse  
+          example: ['informática', 'periféricos', 'mouse','mouse óptico', 'mouse sem fio']
+                  #/fornecedores/1/produtos?categorias=informatica|perifericos|mouse  
         - in: query
           name: offset
           schema:
@@ -296,8 +318,27 @@ paths:
             format: int64
           description: Quantidade de produtos a serem mostrados.
           example: 10
-
-
+        - in: query
+          name: sort
+          schema:
+            type: object
+            properties:
+              descricao:
+                type: string
+                enum:
+                  - asc
+                  - dsc
+                default:
+                  - asc
+              preco:
+                type: number
+                enum:
+                  - asc
+                  - dsc
+                default:
+                  - asc                
+          style: deepObject
+          explode: true  
       responses:
         '200':
           description: OK
