@@ -1,7 +1,7 @@
 # Trabalho Final AWS
 
 ## Apresentação
-[Parte 2: Modelagem e Crawlers](doc/modelagem-crawlers.md)
+[Parte 2: Modelagem e Cadastramento de Produtos](doc/modelagem-crawlers.md)
 
 ## Referências
 [Referências importantes para o projeto](doc/referencias.md)
