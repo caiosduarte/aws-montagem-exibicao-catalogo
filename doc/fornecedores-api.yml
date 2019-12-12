@@ -114,13 +114,13 @@ components:
         id: 1
         referencia: M280-2V 
         fornecedorId: 1
-        codigoNoFornecedor: 39ab
+        codigoNoFornecedor: '59874'
         descricao: 'Mouse Logitech M280 sem Fio - Preto'
         marca: Logitech
         estoque: 10
         preco: 200.99
         categorias: ['informática', 'periféricos', mouse, 'mouse óptico', mouse sem fio]
-        detalhes: {texto: 'Mouse óptico sem fio preto garantia de 30 meses', cor: 'Preto', codigoDeBarras: 0097855107435, tamanho: '9x15x6cm'}
+        detalhes: {"Texto": 'Mouse óptico sem fio preto garantia de 30 meses', "Cor": 'Preto', "Código de Barras": 0097855107435, "Dimensões": '9x15x6cm'}
         url: https://www.submarino.com.br/produto/121960403/
     Imagem:
       type: object
@@ -271,6 +271,35 @@ paths:
       summary: Retorna todos produtos de um Fornecedor
       parameters: 
         - $ref: '#/components/parameters/fornecedor'
+        - in: query
+          name: categorias
+          style: pipeDelimited
+          explode: true
+          description: 'Filtra pelas categorias: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse'
+          schema:
+            minItems: 1
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+              example: ['informática', 'periféricos', 'mouse','mouse óptico', 'mouse sem fio']
+          example: /fornecedores/1/produtos?categorias=informatica|perifericos|mouse  
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            format: int64
+          description: Início do contador de produtos a serem mostrados.
+          example: 1        
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int64
+          description: Quantidade de produtos a serem mostrados.
+          example: 10
+
+
       responses:
         '200':
           description: OK
@@ -372,4 +401,38 @@ paths:
           $ref: '#/components/responses/NaoEncontrado'
         default:
           $ref: '#/components/responses/Inesperado'
-  
+    patch:
+      tags:
+        - fornecedores/produtos
+      summary: Altera propriedades de um Produto do Fornecedor
+      parameters: 
+        - $ref: '#/components/parameters/fornecedor'
+        - in: path
+          name: produtoId
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: O identificador interno do produto.
+          example: 1  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/Invalido'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        default:
+          $ref: '#/components/responses/Inesperado'
