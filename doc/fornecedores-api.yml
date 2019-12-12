@@ -103,7 +103,6 @@ components:
           format: uri
       required: 
         - id
-        - fornecedorId
         - codigoNoFornecedor
         - descricao
         - marca
@@ -113,7 +112,6 @@ components:
       example:
         id: 1
         referencia: M280-2V 
-        fornecedorId: 1
         codigoNoFornecedor: '59874'
         descricao: 'Mouse Logitech M280 sem Fio - Preto'
         marca: Logitech
