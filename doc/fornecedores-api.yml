@@ -323,9 +323,18 @@ paths:
           name: sort
           schema:
             type: object
+            minProperties: 1
             properties:
+              descricao:
+                type: string
+                enum:
+                  -
+                  - asc
+                  - dsc
+                default:
+                  - asc
               preco:
-                type: number
+                type: string
                 enum:
                   -
                   - asc
