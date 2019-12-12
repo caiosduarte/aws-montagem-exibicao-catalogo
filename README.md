@@ -1,4 +1,11 @@
 # Trabalho Final AWS
+
+## Apresentação
+[Parte 2: Modelagem e Crawlers](doc/modelagem-crawlers.md)
+
+## Referências
+[Referências importantes para o projeto](doc/referencias.md)
+
 ## Objetivos
 ✓ Praticar os conceitos vistos em sala de aula;
 
@@ -182,5 +189,3 @@ Caso um grupo seja do CRM, espera-se inicialmente uma documentação semelhante 
         message:
         type: stringImplantação
 
-## Referências
-[Referências importantes para o projeto](doc/referencias.md)
