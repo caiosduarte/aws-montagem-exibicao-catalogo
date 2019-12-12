@@ -205,8 +205,37 @@ A API Catálogo foi dividida em 02 APIs menores de forma a separar as responsabi
 
 A API Fornecedores tem a responsabilidade de cadastrar os fornecedores e seus produtos.
 
-O cadastro de fornecedores tem um caráter administrativo do sistema e é feito pelo URI /fornecedores.
+O cadastro de fornecedores tem caráter de administração do sistema e é feito pelo URI **/fornecedores**.
 
-O cadastro de produtos de fornecedores 
+O cadastro de produtos dos fornecedores pode ser via programas automatizados, crawlers, ou manual, a inserção de produtos sempre passa pela API de Fornecedores, portanto quem vai fazer essa operação tem que implementar o contrato da API Fornecedores, URI: **/fornecedores/1/produtos**.
 
+![Arquitetura da API Fornecedores](api-fornecedores.png)
+
+O objetivo do crawler é, seja fazendo web scrapping da página do fornecedor ou consultando alguma API disponibilizada pelo fornecedor, estruturar os dados dos produtos conforme o contrato repassando-os para API Fornecedores através do método POST (ou PUT) no URI /fornecedores/1/produtos. O final dos dados a serem estruturados fica assim:
+
+``` javascript
+{
+  "id": 1,
+  "referencia": "M280-2V",
+  "codigoNoFornecedor": "59874",
+  "descricao": "Mouse Logitech M280 sem Fio - Preto",
+  "marca": "Logitech",
+  "estoque": 10,
+  "preco": 200.99,
+  "categorias": [
+    "informática",
+    "periféricos",
+    "mouse",
+    "mouse óptico",
+    "mouse sem fio"
+  ],
+  "detalhes": {
+    "Texto": "Mouse óptico sem fio preto garantia de 30 meses",
+    "Cor": "Preto",
+    "Código de Barras": "0097855107435",
+    "Dimensões": "9x15x6cm"
+  },
+  "url": "https://www.submarino.com.br/produto/121960403/"
+}
+``` 
 
