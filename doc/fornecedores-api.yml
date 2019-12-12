@@ -289,7 +289,7 @@ paths:
           name: marca
           schema:
             type: string
-          description: Filtro pela descrição do produto.
+          description: Filtro pela marca do produto.
           example: logitech          
         - in: query
           name: categorias
